@@ -1,5 +1,7 @@
 package com.revature.eval.java.core;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAmount;
@@ -862,15 +864,27 @@ public class EvaluationService {
 		//like three weeks ago
 		
 		//System.out.println(given);
-//		given = given.plus(0, ChronoUnit.MINUTES);
-//		given = given.plus(0,ChronoUnit.SECONDS);
-//		given = given.plus(0,ChronoUnit.MILLIS);
+		//given = given.plus(0, ChronoUnit.MINUTES);
+		//given = given.plus(0,ChronoUnit.SECONDS);
+		//given = given.plus(0,ChronoUnit.MILLIS);
+		//I think i might have messed up on these
+		//I forgot hours
 		long bigTen = (long) Math.pow(10,9);
+		if (!given.isSupported(ChronoUnit.SECONDS)) {
+			//Boom LocalDate solves my problems
+			LocalDate date = (LocalDate) given;
+			//this will cast the given time to the LocalDate referencetype
+			LocalDateTime midnightDate = date.atStartOfDay();
+			//this sets the mins secs and mils to 0;
+			//because now they are set the seconds can be added.
+			given = midnightDate;
+		}	
 		//System.out.println(given);
 		given = given.plus(bigTen, ChronoUnit.SECONDS);
 		//System.out.println(given);
 		return given;
 	}
+
 
 	/**
 	 * 18. Given a number, find the sum of all the unique multiples of particular
